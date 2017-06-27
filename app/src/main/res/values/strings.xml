@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidStydy</string>
+    <string name="rotateluck">旋转抽奖</string>
+    <string name="rotateluckmy">我的转盘抽奖</string>
 </resources>

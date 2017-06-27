@@ -42,6 +42,7 @@
         </activity>
 
         <activity android:name=".baidumapdemo.MapTestActivity"/>
+        <activity android:name=".luckpan.LuckActivity"/>
 
 
 

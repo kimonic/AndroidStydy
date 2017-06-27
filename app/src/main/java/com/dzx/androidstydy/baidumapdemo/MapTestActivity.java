@@ -56,7 +56,6 @@ public class MapTestActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
         client=new LocationClient(getApplicationContext());
         LocationClientOption option=new LocationClientOption();
 //        option.setScanSpan(5000);

@@ -23,8 +23,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="22sp"
+        android:layout_marginTop="10dp"
         android:background="@color/colorAccent"
         android:text="@string/rotateluckmy"
+        />
+    <TextView
+        android:id="@+id/roottest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorAccent"
+        android:text="@string/roottest"
         />
 
 </LinearLayout>

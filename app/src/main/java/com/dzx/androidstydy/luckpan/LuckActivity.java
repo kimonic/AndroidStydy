@@ -65,7 +65,7 @@ public class LuckActivity extends AppCompatActivity implements RotatePan.Animati
                 lp.topMargin -= (goBtn.getHeight()/2);
                 goBtn.setLayoutParams(lp);
 
-                getWindow().getDecorView().requestLayout();
+                getWindow().getDecorView().requestLayout();//重新布局
             }
         });
     }

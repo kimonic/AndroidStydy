@@ -1,5 +1,6 @@
 package com.dzx.androidstydy;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +8,9 @@ import android.widget.TextView;
 import com.dzx.androidstydy.baidumapdemo.MapTestActivity;
 import com.dzx.androidstydy.base.BaseActivity;
 import com.dzx.androidstydy.luckpan.LuckActivity;
+import com.dzx.androidstydy.myluckpan.MyLuckActivity;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 
@@ -23,6 +27,8 @@ public class GuideActivity extends BaseActivity {
     @BindView(R.id.comtomluck)
     TextView myluck;
 
+    @BindView(R.id.roottest)
+    TextView rootTest;
 
 
     @Override
@@ -32,16 +38,26 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sample_text:
 //                openActivity(MapTestActivity.class);
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setClass(this, LuckActivity.class);
                 startActivity(intent);
                 break;
             case R.id.comtomluck:
+                openActivity(MyLuckActivity.class);
+                break;
+            case R.id.roottest:
 
+                ObjectAnimator.ofFloat(rootTest, "rotation",0, 360).setDuration(1000).start();
 
+//                try {
+//                    //请求超级用户权限
+//                    Process process = Runtime.getRuntime().exec("su");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 break;
         }
     }
@@ -65,6 +81,7 @@ public class GuideActivity extends BaseActivity {
     public void initViewClickListener() {
         sampleText.setOnClickListener(this);
         myluck.setOnClickListener(this);
+        rootTest.setOnClickListener(this);
     }
 
     @Override

@@ -34,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
         initViewClickListener();
         requestInternetData();
         initLoad();
+
     }
 
     public void initSDK() {

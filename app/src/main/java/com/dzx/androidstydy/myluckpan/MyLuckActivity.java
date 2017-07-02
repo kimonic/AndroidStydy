@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dzx.androidstydy.R;
 import com.dzx.androidstydy.base.BaseActivity;
@@ -23,15 +25,18 @@ import butterknife.ButterKnife;
  */
 
 public class MyLuckActivity extends BaseActivity {
-//    @BindView(R.id.luckcustom)
+    //    @BindView(R.id.luckcustom)
 //    LuckCustom luckcustom;
     @BindView(R.id.rv_mcustom)
     RotateView rotateview;
 
     @BindView(R.id.bt_changangle)
     Button changeangle;
+    @BindView(R.id.tv_start)
+    TextView start;
 
-    private int angle=1920;
+    private int angle = 1920;
+
 
     @Override
     public int setLayoutRes() {
@@ -41,37 +46,19 @@ public class MyLuckActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 //            case R.id.luckcustom:
 //                ObjectAnimator.ofFloat(luckcustom, "rotation",0, 270).setDuration(500).start();
 
 //                break;
             case R.id.bt_changangle:
-                if (angle<angle+360){
-                    angle+=60;
+                if (angle < angle + 360) {
+                    angle += 60;
                 }
                 break;
-            case R.id.rv_mcustom:
-//                ObjectAnimator.ofFloat(rotateview, "rotation",0, 360,720,1080,1440).setDuration(5000).start();
-//                ValueAnimator animtor = ValueAnimator.ofInt(0,3600);
-//                animtor.setInterpolator(new AccelerateDecelerateInterpolator());
-//                animtor.setDuration(5000);
-//                animtor.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                    @Override
-//                    public void onAnimationUpdate(ValueAnimator animation) {
-//                        int updateValue = (int) animation.getAnimatedValue();
-//
-////                        ViewCompat.postInvalidateOnAnimation(rotateview);
-//                        Log.e("TAG", "onAnimationUpdate: ------" +updateValue);
-//                        Log.e("TAG", "onAnimationUpdate: ------" +Thread.currentThread().getName());
-//                        rotateview.setRotation(updateValue);
-//                        rotateview.postInvalidate();
-//                    }
-//                });
-//                animtor.start();
-
+            case R.id.tv_start:
                 rotateview.startRotate(angle);
-
+                start.setClickable(false);
                 break;
         }
     }
@@ -93,9 +80,22 @@ public class MyLuckActivity extends BaseActivity {
 
     @Override
     public void initViewClickListener() {
-//            luckcustom.setOnClickListener(this);
-            rotateview.setOnClickListener(this);
         changeangle.setOnClickListener(this);
+        start.setOnClickListener(this);
+        rotateview.setListener(new RotateView.FinishRotateListener() {
+            @Override
+            public void finish(int position) {
+                final StringBuilder builder=new StringBuilder();
+                builder.append(""+position);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MyLuckActivity.this, builder, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                start.setClickable(true);
+            }
+        });
     }
 
     @Override

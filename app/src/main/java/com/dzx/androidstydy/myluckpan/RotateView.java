@@ -1,23 +1,27 @@
 package com.dzx.androidstydy.myluckpan;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
-import android.support.v7.view.WindowCallbackWrapper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+
+import com.dzx.androidstydy.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/2.
- * 旋转盘
+ * 旋转盘--基本成功版
  */
 
 public class RotateView extends View {
@@ -41,6 +45,24 @@ public class RotateView extends View {
     private Paint textPaint2;
     /**动画时的旋转角度*/
     private int rotateAngle=0;
+
+    private FinishRotateListener listener;
+    private int[] images=new int[]{
+            R.drawable.jiangpin01,
+            R.drawable.jiangpin02,
+            R.drawable.jiangpin03,
+            R.drawable.jiangpin04,
+            R.drawable.jiangpin05,
+            R.drawable.jiangpin06
+
+    };
+
+    private  List<Bitmap> list;
+    private Rect rect=new Rect();
+
+    public void setListener(FinishRotateListener listener) {
+        this.listener = listener;
+    }
 
     public int getmWidth() {
         return mWidth;
@@ -79,7 +101,6 @@ public class RotateView extends View {
     }
 
     private void initView() {
-//        bacPaint=getPaint(Color.rgb(255, 133, 132));
         bacPaint1=getPaint(Color.BLUE);
         bacPaint2=getPaint(Color.WHITE);
         textPaint1=getPaint(Color.RED);
@@ -87,6 +108,17 @@ public class RotateView extends View {
 
         textPaint2=getPaint(Color.YELLOW);
         textPaint2.setTextSize(60);
+
+
+        list=new ArrayList<>();
+
+        for (int  i:images) {
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inJustDecodeBounds = true;
+//            Bitmap bitmap= BitmapFactory.decodeResource(getResources(),i,options);
+            Bitmap bitmap= BitmapFactory.decodeResource(getResources(),i);
+            list.add(bitmap);
+        }
 
 
     }
@@ -115,13 +147,40 @@ public class RotateView extends View {
             }else {
                 canvas.drawArc(arcRect,i+rotateAngle,60,true,bacPaint2);
             }
-            canvas.drawCircle((float) (circleX+radius*2/3*Math.cos(2*Math.PI/360*(i+rotateAngle+30))),
-                    (float)(circleY+radius*2/3*Math.sin(2*Math.PI/360*(i+rotateAngle+30))),radius/4,textPaint1);
+//            canvas.drawCircle((float) (circleX+radius*2/3*Math.cos(2*Math.PI/360*(i+rotateAngle+30))),
+//                    (float)(circleY+radius*2/3*Math.sin(2*Math.PI/360*(i+rotateAngle+30))),radius/4,textPaint1);
+
+
+
+
+
+
+        }
+        for (int i = 0; i < 360; i=i+60) {
+            // 设置图片的宽度为直径的1/8
+            int imgWidth = radius / 8;
+
+            float angle = (float) ((30 + i+rotateAngle) * (Math.PI / 180));
+
+            int x = (int) (circleX + radius / 2  * Math.cos(angle));
+            int y = (int) (circleY + radius / 2  * Math.sin(angle));
+
+            // 确定绘制图片的位置
+//            Rect rect = new Rect(x - imgWidth / 2-10, y - imgWidth / 2-10, 50+x + imgWidth
+//                    / 2, 50+y + imgWidth / 2);
+            rect.left=x - imgWidth / 2-10;
+            rect.top=y - imgWidth / 2-10;
+            rect.right=50+x + imgWidth/ 2;
+            rect.bottom=50+y + imgWidth / 2;
+            Bitmap bitmap=list.get(i/60);
+
+            canvas.drawBitmap(bitmap, null, rect, null);
+
             canvas.drawText(""+(i/60+1),
                     (float) (circleX+radius*2/3*Math.cos(2*Math.PI/360*(i+rotateAngle+30))-15),
                     (float)(circleY+radius*2/3*Math.sin(2*Math.PI/360*(i+rotateAngle+30))+15),textPaint2);
-
         }
+
 
     }
 
@@ -158,13 +217,9 @@ public class RotateView extends View {
             Log.e("TAG", "changeAngle: -----"+(System.currentTimeMillis()-start) );
         }
         rotateAngle=rotateAngle%360;
-        ((Activity)getContext()).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getContext(), ""+getCurrentPosition(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        Log.e("TAG", "changeAngle:------------ "+ rotateAngle);
+        if (listener!=null){
+            listener.finish(getCurrentPosition());
+        }
     }
 
     private int getCurrentPosition(){
@@ -206,5 +261,9 @@ public class RotateView extends View {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         return paint;
+    }
+
+    public interface FinishRotateListener{
+        void finish(int position);
     }
 }

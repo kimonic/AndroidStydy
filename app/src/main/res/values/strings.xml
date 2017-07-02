@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AndroidStydy</string>
-    <string name="rotateluck">旋转抽奖</string>
-    <string name="rotateluckmy">我的转盘抽奖</string>
-    <string name="roottest">root权限测试</string>
+    <string name="rotateluck">旋转抽奖1</string>
+    <string name="rotateluckmy">旋转抽奖2</string>
+    <string name="roottest">旋转抽奖3</string>
     <string name="changeangle">改变旋转的角度</string>
 </resources>

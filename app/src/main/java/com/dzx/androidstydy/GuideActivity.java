@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.dzx.androidstydy.baidumapdemo.MapTestActivity;
 import com.dzx.androidstydy.base.BaseActivity;
+import com.dzx.androidstydy.demo_zhy_06_choujiangzhuanpan.MainActivity;
 import com.dzx.androidstydy.luckpan.LuckActivity;
 import com.dzx.androidstydy.myluckpan.MyLuckActivity;
 
@@ -49,8 +50,10 @@ public class GuideActivity extends BaseActivity {
                 openActivity(MyLuckActivity.class);
                 break;
             case R.id.roottest:
-
-                ObjectAnimator.ofFloat(rootTest, "rotation",0, 360).setDuration(1000).start();
+                Intent intent3 = new Intent();
+                intent3.setClass(this, MainActivity.class);
+                startActivity(intent3);
+//                ObjectAnimator.ofFloat(rootTest, "rotation",0, 360).setDuration(1000).start();
 
 //                try {
 //                    //请求超级用户权限
